@@ -1,0 +1,108 @@
+<?php $__env->startSection('content'); ?>
+<?php
+  date_default_timezone_set("Asia/Jakarta");
+?>
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-info alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<b>Selamat Datang di PerPusWeb (Perpustakaan Berbasis Website), Untuk Login Admin silahkan klik Icon User atau klik <a href="<?php echo e(url('auth/login')); ?>">disini</a></b>
+        	</div>
+        </div>
+
+        <div class="col-md-12">
+            <section class="panel panel-primary">
+                <header class="panel-heading">
+                    <b>Data Peminjam Hari Ini</b>
+                </header>
+                <div class="panel-body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nama peminjam</th>
+                                <th>Tanggal peminjaman</th>
+                                <th>batas peminjaman </th>
+                                <th>tanggal kembali</th>
+                                <th>status </th>
+                	        </tr>
+                        </thead>
+                              
+                        <?php foreach($peminjam as $p): ?>
+	                    <tbody>
+		                    <tr>
+			                    <td><?php echo e($p['nama_peminjam']); ?></td>
+			                    <td><?php echo e($p['tgl_pinjam']); ?></td>
+                          <td><?php echo e($p['batas']); ?></td>
+                          <?php if($p['status']=="sudah kembali"): ?>
+                          <td><?php echo e($p['tgl_kembali']); ?></td>
+                          <?php else: ?>
+                            <td><span class="text text-danger"><b>anda belum mengembalikan</b></span></td>
+                            <?php endif; ?>
+
+			                    <?php if($p['status']=="sudah kembali"): ?>
+                            <td><span class="label label-success"><i class="fa fa-check"></i><?php echo e($p['status']); ?></span></td>
+                          <?php else: ?>
+                            <td><span class="label label-danger"><i class="fa fa-times"></i> <?php echo e($p['status']); ?></span></td>
+                            <?php endif; ?>
+			                </tr>
+			            </tbody>
+		                <?php endforeach; ?>
+              
+                    </table> <hr />
+                    
+                  	<center>
+                  		<h4>Jumlah Pengunjung Hari Ini : <?php echo e($result); ?> Orang </h4>
+                  	</center>
+                </div>
+            </section>
+		</div>                    
+<div class="col-md-12">
+    <section class="panel panel-primary">
+        <header class="panel-heading">
+            <b>  Data semua peminjam</b>
+        </header>
+        <div class="panel-body">
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                    <th>Nama peminjam</th>
+                    <th>Tanggal peminjaman</th>
+                    <th>batas peminjaman </th>
+                    <th>tanggal kembali</th>
+                    <th>status </th>
+                  </tr>
+              </thead>
+              <?php foreach($pinjam as $k): ?>
+              <tbody>
+                  <tr>
+                      <td><?php echo e($k['nama_peminjam']); ?></td>
+                          <td><?php echo e($k['tgl_pinjam']); ?></td>
+                          <td><?php echo e($k['batas']); ?></td>
+                          <?php if($k['status']=="sudah kembali"): ?>
+                          <td><?php echo e($k['tgl_kembali']); ?></td>
+                          <?php else: ?>
+                            <td><span class="text text-danger"><b>belum kembali</b></span></td>
+                            <?php endif; ?>
+
+                          <?php if($k['status']=="sudah kembali"): ?>
+                            <td><span class="label label-success"><i class="fa fa-check"></i><?php echo e($k['status']); ?></span></td>
+                          <?php else: ?>
+                            <td><span class="label label-danger"><i class="fa fa-times"></i> <?php echo e($k['status']); ?></span></td>
+                            <?php endif; ?>
+                  </tr>
+              </tbody>
+              <?php endforeach; ?>
+          </table> <hr />
+          <div class="pagination"><?php echo $__env->make('pagination.default', ['paginator' => $pinjam], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?></div>
+          
+           <center>
+               <h4>Jumlah Pengunjung : <?php echo e($jum_pinjam); ?> Orang </h4>
+            </center>
+      </div>
+  </section>                   
+</div>
+</div>
+</section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.FrontLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

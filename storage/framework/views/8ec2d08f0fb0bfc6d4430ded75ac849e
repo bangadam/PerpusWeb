@@ -1,0 +1,133 @@
+<?php $__env->startSection('content'); ?>
+
+<script type="text/javascript">
+	function report(form) {
+		if(form.status.value == "non-active"){
+			var pesan = confirm("Apakah yakin ingin mengubah status\n menjadi Active ??");
+
+			if (pesan == true) {
+				return (true);
+			} else {
+				return (false);
+			}
+		}
+		else if(form.status.value == "active"){
+			var pesan = confirm("Apakah yakin ingin mengubah status\n menjadi Non-Active ??");
+
+			if (pesan == true) {
+				return (true);
+			} else {
+				return (false);
+			}
+		}
+	}
+</script>
+
+<aside class="right-side">
+
+                <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <header class="panel-heading">
+                        <b>List Anggota</b>
+
+                    </header>
+                    <div class="panel-body table-responsive">
+                      	<div class="box-tools m-b-15">
+                        <form action="<?php echo e(url('cari')); ?>" method="GET">
+                            <div class="input-group">
+                            <input type='text' class="form-control input-sm pull-right" style="width: 150px;"  name='cari' placeholder='Cari berdasarkan Nama' required /> 
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-default" type="submit"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>    
+                      	</div>
+		                <table id="example" class="table table-hover table-responsive table-striped">
+		                  	<thead>
+		                      <tr>
+		                        <th>No Induk </th>
+		                        <th>Nama </th>
+		                        <th>Kelas </th>
+		                        <th>Alamat </th>
+		                        <th>Status </th>
+		                        <th><center>Tools</center></th>
+		                      </tr>
+		                  	</thead>
+		                   <?php if($mode=="all"): ?>
+			                 <tbody>
+			                    <?php foreach($anggota as $c): ?>
+				                    <tr>
+				                    <td><?php echo e($c->no_induk); ?></td>
+				                    <td><a href="<?php echo e(url('View anggota', array($c->id))); ?>"><span class="fa fa-user"></span> <?php echo e($c->username); ?></a></td>
+				                    <td><?php echo e($c->kelas); ?> <?php echo e($c->jurusan); ?>-<?php echo e($c->category); ?></td>
+				                    <td><?php echo e($c->alamat); ?></td>
+				                    <td>
+				                    	<form onsubmit="return report(this)" action="<?php echo e(url('edit', array($c->id))); ?>" method="post">
+				                    	<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+				                    	<input type="hidden" name="status" id="status" value="<?php echo e($c->status); ?>" /><p class="text-uppercase"><?php echo e($c->status); ?> </p>
+						            </td>
+				                    <td>
+				                    <?php if($c->status=="active"): ?>
+					                    <div id="thanks"><button data-toggle="tooltip" data-placement="bottom" title="Non-Aktifkan" class="btn btn-sm btn-primary tooltips" onclick="" type="submit" name="submit">
+					                    <span class="glyphicon glyphicon-ban-circle"></span> 
+					                    </button></form>
+					                    <a data-toggle="tooltip" data-placement="bottom" title="Edit Data" class="btn btn-sm btn-warning tooltips" href="<?php echo e(url('update anggota', array($c->id))); ?>"><span class="glyphicon glyphicon-pencil"></a></td></tr></div>
+				                    <?php else: ?>
+					                    <div id="thanks"><button data-toggle="tooltip" data-placement="bottom" title="Aktifkan" class="btn btn-sm btn-primary tooltips" onclick="" type="submit" name="submit">
+					                    <span class="glyphicon glyphicon-ok-circle"></span>
+					                    </button></form>
+					                    <a data-toggle="tooltip" data-placement="bottom" title="Edit Data" class="btn btn-sm btn-warning tooltips" href="<?php echo e(url('update anggota', array($c->id))); ?>"><span class="glyphicon glyphicon-pencil"></a>
+					                    <a data-toggle="tooltip" data-placement="bottom" onclick="return confirm ('Yakin hapus <?php echo e($c->username); ?>.?');" title="Hapus Data" class="btn btn-sm btn-danger tooltips" href="<?php echo e(url('delete', array($c->id))); ?>"><span class="glyphicon glyphicon-trash"></a></td></tr></div>
+				                    <?php endif; ?>
+			                 	<?php endforeach; ?>
+			                 </tbody>
+			            </table>
+			            <div class="pagination"><?php echo $__env->make('pagination.default', ['paginator' => $anggota], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?></div>
+				        <?php elseif($mode=="cari"): ?>
+				        	<?php if(count($hasil) > 0): ?>
+				        		<tbody>
+				                    <?php foreach($hasil as $c): ?>
+					                    <tr>
+					                    <td><?php echo e($c->no_induk); ?></td>
+					                    <td><a href="<?php echo e(url('View anggota', array($c->id))); ?>"><span class="fa fa-user"></span> <?php echo e($c->username); ?></a></td>
+					                    <td><?php echo e($c->kelas); ?></td>
+					                    <td><?php echo e($c->alamat); ?></td>
+					                    <td>
+					                    	<form onsubmit="return report(this)" action="<?php echo e(url('edit', array($c->id))); ?>" method="post">
+					                    	<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+					                    	<input type="hidden" name="status" id="status" value="<?php echo e($c->status); ?>" /><p class="text-uppercase"><?php echo e($c->status); ?> </p>
+							            </td>
+					                    <td>
+						                    <center><div id="thanks"><button class="btn btn-sm btn-primary" onclick="" type="submit" name="submit"><span class="glyphicon glyphicon-edit"></span> </button></form>
+						                    <a data-toggle="tooltip" data-placement="bottom" title="Edit Data" class="btn btn-sm btn-warning tooltips" href="<?php echo e(url('update anggota', array($c->id))); ?>"><span class="glyphicon glyphicon-pencil"></a>
+						                    <a data-toggle="tooltip" data-placement="bottom" onclick="return confirm ('Yakin hapus <?php echo e($c->username); ?>.?');" title="Hapus Data" class="btn btn-sm btn-danger tooltips" href="<?php echo e(url('delete', array($c->id))); ?>"><span class="glyphicon glyphicon-trash"></a></div></center>
+					                    </td>
+					                </tr>
+				                 	<?php endforeach; ?>
+				                </tbody>
+				                </table>
+				                <div class="pagination"><?php echo $__env->make('pagination.default', ['paginator' => $hasil], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?></div>
+				            <?php else: ?>
+				            	<tbody>
+				            		<tr>
+				            			<td colspan="7">Hasil Pencarian Kosong</td>
+				            		</tr>
+				            	</tbody>
+				            	</table>
+				           	<?php endif; ?>
+				        <?php endif; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- row end -->
+</section><!-- /.content -->
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.FrontAdmin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

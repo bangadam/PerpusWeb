@@ -1,0 +1,98 @@
+<?php $__env->startSection('content'); ?>
+
+<aside class="right-side">
+
+                <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                <header class="panel-heading">
+                    <b>List Transaksi</b>
+
+                </header>
+                <div class="panel-body table-responsive">
+                  <div class="box-tools m-b-15">
+                    <form action="<?php echo e(url('mencari')); ?>" method="GET">
+                        <div class="input-group">
+                        <input type='text' class="form-control input-sm pull-right" style="width: 210px;"  name='cari' placeholder='Cari berdasarkan Nama Peminjam' required /> 
+                            <div class="input-group-btn">
+                                <button class="btn btn-sm btn-default" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>    
+                  </div>
+                <table id="example" class="table table-hover table-bordered">
+                  <thead>
+                     <tr>
+                        <th><center>No </center></th>
+                        <th><center>Nama Peminjam </center></th>
+                        <th><center>Tanggal Peminjaman </center></th>
+                        <th><center>Batas Peminjaman </center></th>
+                        <th><center>Status </center></th>
+                      </tr>
+                  </thead>
+                    <?php if($mode=="all"): ?>
+                        <tbody>
+                        <?php $i=1; ?>
+                        <?php foreach($transaksi as $d): ?>
+                            <tr>
+                                <td><?php echo e($i++); ?></td>
+                                <td><a href="<?php echo e(url('Detail', array($d['id']))); ?>"><span class="fa fa-user"></span> <?php echo e($d['nama_peminjam']); ?></a></td> 
+                                <td><?php echo e($d['tgl_pinjam']); ?></td>
+                                <td><?php echo e($d['batas']); ?></td>
+                                <?php if($d['status']=="sudah kembali"): ?>
+                                <td><span class="label label-success"><i class="fa fa-check"></i> <?php echo e($d['status']); ?></span></td>
+                                <?php elseif($d['status']=="belum kembali"): ?>
+                                <td><span class="label label-danger"><i class="fa fa-times"></i> <?php echo e($d['status']); ?></span></td>
+                                <?php elseif($d['status']=="waiting approve"): ?>
+                                <td><span class="text text-danger"><i class="glyphicon glyphicon-repeat fa-spin"></i> <?php echo e($d['status']); ?> . . . .</span></td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                       </tbody>
+                       </table>
+                       <div class="pagination"><?php echo $__env->make('pagination.default', ['paginator' => $transaksi], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?></div>
+                   
+                    <?php elseif($mode=="cari"): ?>
+                        <?php if(count($hasil) > 0): ?>
+                            <tbody>
+                            <?php $i=1; ?>
+                            <?php foreach($hasil as $c): ?>
+                            <tr>
+                                <td><?php echo e($i++); ?></td>
+                                <td><a href="<?php echo e(url('Detail', array($c['id']))); ?>"><span class="fa fa-user"></span> <?php echo e($c['nama_peminjam']); ?></a></td> 
+                                <td><?php echo e($c['tgl_pinjam']); ?></td>
+                                <td><?php echo e($c['tgl_kembali']); ?></td>
+                                <?php if($c['status']=="sudah kembali"): ?>
+                                <td><span class="label label-success"><?php echo e($c['status']); ?></span></td>
+                                <?php elseif($c['status']=="belum kembali"): ?>
+                                <td><span class="label label-danger"><?php echo e($c['status']); ?></span></td>
+                                <?php elseif($c['status']=="waiting approve"): ?>
+                                <td><span class="text text-danger"><i class="fa fa-refresh fa-spin"></i> <?php echo e($c['status']); ?> . . . .</span></td>
+                                <?php endif; ?>
+                            </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        <?php else: ?>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">Hasil Pencarian Kosong</td>
+                                </tr>
+                            </tbody>
+                        <?php endif; ?>
+                        </table>
+                   
+                    <?php endif; ?>
+ 
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.FrontAdmin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

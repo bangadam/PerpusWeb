@@ -1,0 +1,56 @@
+.bubbles {
+margin: 100px 0 0;
+padding: 0;
+list-style: none;
+}
+.bubbles li {
+padding: 0;
+margin: 0 2px;
+float: left;
+position: relative;
+text-align: center;
+}
+.bubbles a {
+padding: 15px 10px;
+display: block;
+color: #000000;
+width: 140px;
+text-decoration: none;
+font-weight: bold;
+background: -moz-linear-gradient(top, #e0f3fa 0%, #d8f0fc 50%, #b8e2f6 51%, #b6dffd 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e0f3fa), color-stop(50%,#d8f0fc), color-stop(51%,#b8e2f6), color-stop(100%,#b6dffd));
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+opacity:0.9;
+-webkit-transition: all 0.6s ease-in-out;
+}
+.bubbles a:hover {opacity:1;}
+.bubbles li em {
+font-weight: normal;
+background: -moz-linear-gradient(top, #feffe8 0%, #d6dbbf 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feffe8), color-stop(100%,#d6dbbf));
+width: 130px;
+height: 25px;
+position: absolute;
+top: -85px;
+left: 3px;
+text-align: center;
+padding: 20px 12px 10px;
+font-style: normal;
+z-index: 2;
+display: none;
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+}
+.bubbles li em:after {
+content:"";
+display:block;
+position:absolute;
+bottom:-20px;
+left:50px;
+width:0;
+height:0;
+border-width:20px 0 0 20px;
+border-style:solid;
+border-color:#d6dbbf transparent;
+}
